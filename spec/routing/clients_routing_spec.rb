@@ -25,5 +25,9 @@ RSpec.describe ClientsController, type: :routing do
     it 'routes to #destroy' do
       expect(delete: '/clients/1').to route_to('clients#destroy', id: '1')
     end
+
+    it 'routes to #balance' do
+      expect(get: '/clients/1/balance').to route_to('clients#balance', id: '1')
+    end
   end
 end

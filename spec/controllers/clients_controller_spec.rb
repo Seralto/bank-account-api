@@ -88,4 +88,29 @@ RSpec.describe ClientsController, type: :controller do
       end.to change(Client, :count).by(-1)
     end
   end
+
+  describe 'GET #balance' do
+    context 'with valid account' do
+      it 'renders a JSON response with the current balance' do
+        client = create(:client)
+        account = create(:account, client: client)
+
+        get :balance, params: { id: client.to_param }
+        json = JSON.parse(response.body)
+
+        expect(response).to be_successful
+        expect(json['current_balance'].to_f).to eq(account.balance.to_f)
+      end
+    end
+
+    context 'with invalid account' do
+      it 'renders a JSON response with an error' do
+        client = create(:client)
+
+        get :balance, params: { id: client.to_param }
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end

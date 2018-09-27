@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-  before_action :set_client, only: %i[show update destroy]
+  before_action :set_client, only: %i[show update destroy balance]
 
   # GET /clients
   def index
@@ -36,6 +36,15 @@ class ClientsController < ApplicationController
   # DELETE /clients/1
   def destroy
     @client.destroy
+  end
+
+  # GET /clients/1/balance
+  def balance
+    if @client.account
+      render json: { current_balance: @client.account.balance }
+    else
+      render json: { error: 'Account does not exist.' }, status: :not_found
+    end
   end
 
   private
