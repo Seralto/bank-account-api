@@ -4,4 +4,6 @@ Rails.application.routes.draw do
     get :balance, on: :member
     post :transfer_money, on: :member
   end
+
+  post 'authenticate', to: 'authentication#authenticate'
 end

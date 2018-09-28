@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe AccountsController, type: :controller do
+  before do
+    allow(controller).to receive(:authenticate_request).and_return(true)
+  end
+
   describe 'GET #index' do
     it 'returns a success response' do
       create(:client)
