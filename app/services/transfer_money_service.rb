@@ -9,7 +9,7 @@ class TransferMoneyService
 
   def perform
     source_account = Account.find(source_account_id)
-    return { success: false, message: 'Not enougth money.' } if source_account.balance < amount
+    return { success: false, message: 'Not enough money.' } if source_account.balance < amount
 
     destination_account = Account.find(destination_account_id)
 
