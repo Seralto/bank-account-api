@@ -119,4 +119,63 @@ RSpec.describe ClientsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #transfer_money' do
+    context 'with sufficient balance' do
+      it 'transfer the money amount' do
+        source_account = create(:account, balance: 1000.00)
+        destination_account = create(:account, balance: 1000.00)
+
+        post :transfer_money, params: {
+          id: source_account.client.to_param,
+          destination_account_id: destination_account.to_param,
+          amount: 800.00
+        }
+
+        source_account.reload
+        destination_account.reload
+
+        expect(response).to be_successful
+        expect(format_currency(source_account.balance)).to eq(format_currency(200))
+        expect(format_currency(destination_account.balance)).to eq(format_currency(1800))
+      end
+    end
+
+    context 'with insufficient balance' do
+      it 'renders a JSON response with an error' do
+        source_account = create(:account, balance: 0.00)
+        destination_account = create(:account, balance: 1000.00)
+
+        post :transfer_money, params: {
+          id: source_account.client.to_param,
+          destination_account_id: destination_account.to_param,
+          amount: 500.00
+        }
+
+        source_account.reload
+        destination_account.reload
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(format_currency(source_account.balance)).to eq(format_currency(0))
+        expect(format_currency(destination_account.balance)).to eq(format_currency(1000))
+      end
+    end
+
+    context 'with invalid params' do
+      it 'renders an error when destination account does not exist' do
+        source_account = create(:account, balance: 1000.00)
+
+        post :transfer_money, params: {
+          id: source_account.client.to_param,
+          destination_account_id: 4321,
+          amount: 500.00
+        }
+
+        json = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json['error']).to eq("Couldn't find Account with 'id'=4321")
+      end
+    end
+  end
 end
