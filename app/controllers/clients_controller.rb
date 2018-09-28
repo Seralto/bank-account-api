@@ -1,5 +1,6 @@
 class ClientsController < ApplicationController
   before_action :set_client, only: %i[show update destroy balance transfer_money]
+  before_action :authenticate_request, except: :create
 
   # GET /clients
   def index
