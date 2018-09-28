@@ -1,4 +1,6 @@
 class ClientsController < ApplicationController
+  include CurrencyHelper
+
   before_action :set_client, only: %i[show update destroy balance transfer_money]
   before_action :authenticate_request, except: :create
 
@@ -42,17 +44,21 @@ class ClientsController < ApplicationController
   # GET /clients/1/balance
   def balance
     if @client.account
-      render json: { current_balance: @client.account.balance }
+      render json: { current_balance: format_currency(@client.account.balance) }
     else
       render json: { error: 'Account does not exist.' }, status: :not_found
     end
   end
 
+  # GET /clients/1/transfer_money
   def transfer_money
     res = TransferMoneyService.new(params).perform
 
     if res[:success]
-      render json: @client.account
+      render json: {
+        amount_transferred: format_currency(params[:amount]),
+        current_balance: format_currency(@client.account.balance)
+      }
     else
       render json: { error: res[:message] }, status: :unprocessable_entity
     end
