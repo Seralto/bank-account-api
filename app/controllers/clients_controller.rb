@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-  before_action :set_client, only: %i[show update destroy balance]
+  before_action :set_client, only: %i[show update destroy balance transfer_money]
 
   # GET /clients
   def index
@@ -44,6 +44,16 @@ class ClientsController < ApplicationController
       render json: { current_balance: @client.account.balance }
     else
       render json: { error: 'Account does not exist.' }, status: :not_found
+    end
+  end
+
+  def transfer_money
+    res = TransferMoneyService.new(params).perform
+
+    if res[:success]
+      render json: @client.account
+    else
+      render json: { error: res[:message] }, status: :unprocessable_entity
     end
   end
 
