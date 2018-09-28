@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+include CurrencyHelper
+
 RSpec.describe ClientsController, type: :controller do
   before do
     allow(controller).to receive(:authenticate_request).and_return(true)
@@ -103,7 +105,7 @@ RSpec.describe ClientsController, type: :controller do
         json = JSON.parse(response.body)
 
         expect(response).to be_successful
-        expect(json['current_balance'].to_f).to eq(account.balance.to_f)
+        expect(json['current_balance']).to eq(format_currency(account.balance))
       end
     end
 
