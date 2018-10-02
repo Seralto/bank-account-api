@@ -1,4 +1,4 @@
-# Banking Account
+# Banking Account [![Build Status](https://travis-ci.org/Seralto/bank-account-api.svg?branch=master)](https://travis-ci.org/Seralto/bank-account-api)
 This project is a RESTFul API that implements simple banking features.
 Each client has an account and a client can transfer money to other accounts and request his current balance.
 The system only handles one type of currency that is brazilian Real (BRL).
