@@ -156,7 +156,7 @@ RSpec.describe ClientsController, type: :controller do
         source_account.reload
         destination_account.reload
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:bad_request)
         expect(format_currency(source_account.balance)).to eq(format_currency(0))
         expect(format_currency(destination_account.balance)).to eq(format_currency(1000))
       end
@@ -189,7 +189,7 @@ RSpec.describe ClientsController, type: :controller do
 
         json = JSON.parse(response.body)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:bad_request)
         expect(json['error']).to eq("Couldn't find Account with 'id'=4321")
       end
 
