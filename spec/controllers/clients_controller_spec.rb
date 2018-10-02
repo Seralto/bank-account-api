@@ -163,6 +163,21 @@ RSpec.describe ClientsController, type: :controller do
     end
 
     context 'with invalid params' do
+      it 'renders an error when source account does not exist' do
+        destination_account_id = create(:account, balance: 1000.00)
+
+        post :transfer_money, params: {
+          id: 1111,
+          destination_account_id: destination_account_id.to_param,
+          amount: 500.00
+        }, as: :json
+
+        json = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:not_found)
+        expect(json['error']).to eq("Couldn't find Client with 'id'=1111")
+      end
+
       it 'renders an error when destination account does not exist' do
         source_account = create(:account, balance: 1000.00)
 
