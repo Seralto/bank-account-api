@@ -13,7 +13,7 @@ The project has the following dependencies:
 In order to run the program, follow the steps:
 
 1. Install the project dependencies above and run the following commands.
-2. `$ git clone <REPOSITORY_URL>`
+2. `$ git clone https://github.com/Seralto/bank-account-api`
 3. `$ cd bank-account-api`
 4. `$ bundle install`
 5. `$ rails db:setup`
@@ -21,15 +21,6 @@ In order to run the program, follow the steps:
 ## Running
 1. `$ rails server`
 2. Go to [http://localhost:3000](http://localhost:3000) in your browser.
-
-### Authentication
-The project uses the [JSON Web Token (JWT)](https://github.com/jwt/ruby-jwt) gem to perform authentication.
-
-After getting a **token** (see procedures bellow), you should send it in every request header:
-
-```
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1Mzg1MTIxNTF9.kimM1jrvsEozyzRHlskDugikZWk0l_W8yU7yNzRwZ1I
-```
 
 ## System Usage
 Bellow you can see the main usage of the project resources.
@@ -53,12 +44,12 @@ Attribute	|	Type	|	Description
 
 ```json
 {
-	"client": {
-		"name": "John Doe",
-		"email": "john.doe@mail.com",
-		"password": "top-secret",
-		"password_confirmation": "top-secret"
-	}
+  "client": {
+    "name": "John Doe",
+    "email": "john.doe@mail.com",
+    "password": "top-secret",
+    "password_confirmation": "top-secret"
+  }
 }
 ```
 
@@ -77,7 +68,14 @@ Status: 201 Created
 }
 ```
 
-#### Authenticating
+### Authenticating
+The project uses the [JSON Web Token (JWT)](https://github.com/jwt/ruby-jwt) gem to perform authentication.
+
+After getting a **token**, you should send it in every request header, except on client creation **"POST /clients"**:
+
+```
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1Mzg1MTIxNTF9.kimM1jrvsEozyzRHlskDugikZWk0l_W8yU7yNzRwZ1I
+```
 
 ```
 POST /authenticate
@@ -106,7 +104,7 @@ Status: 200 OK
 ```
 ```json
 {
-    "auth_token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1Mzg1MTIzNTN9.d6ej60b8BleH15-8Dpy57uabyK9JEQFFeqbK0RXDHO8"
+  "auth_token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1Mzg1MTIzNTN9.d6ej60b8BleH15-8Dpy57uabyK9JEQFFeqbK0RXDHO8"
 }
 ```
 
@@ -127,10 +125,10 @@ Attribute	|	Type	|	Description
 
 ```json
 {
-	"account": {
-		"client_id": "1",
-		"balance": 1000
-	}
+  "account": {
+    "client_id": "1",
+    "balance": 1000
+  }
 }
 ```
 
@@ -220,7 +218,7 @@ Status: 400 Bad Request
 }
 ```
 
-## Testing
+### Testing
 Run all tests with the command:
 
 ```shell
