@@ -61,7 +61,7 @@ class ClientsController < ApplicationController
         current_balance: format_currency(@client.account.balance)
       }
     else
-      render json: { error: res[:message] }, status: :unprocessable_entity
+      render json: { error: res[:message] }, status: :bad_request
     end
   end
 
