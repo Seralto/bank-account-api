@@ -4,7 +4,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.1'
 
 gem 'rails', '~> 5.2.1'
-gem 'sqlite3'
 gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'active_model_serializers'
@@ -15,6 +14,7 @@ gem 'simple_command'
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.8'
+  gem 'sqlite3'
 end
 
 group :development do
@@ -28,6 +28,11 @@ group :test do
   gem 'faker'
   gem 'database_cleaner'
   gem 'shoulda-matchers', '~> 3.1'
+end
+
+group :production do
+  gem 'rails_12factor'
+  gem 'pg'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
