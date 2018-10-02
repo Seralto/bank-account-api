@@ -92,7 +92,7 @@ Attribute	|	Type	|	Description
 
 ```json
 {
-  "email": "jonh.doe@mail.com",
+  "email": "john.doe@mail.com",
   "password": "top-secret"
 }
 ```
