@@ -176,8 +176,10 @@ Status: 404 Not Found
 
 ### Transfering Money
 
+The system only allows money transfer from the authenticated Client (source_account).
+
 ```
-POST /clients/1/transfer_money
+POST /clients/:client_id/transfer_money
 ```
 
 **Input**:
@@ -214,7 +216,17 @@ Status: 400 Bad Request
 ```
 ```json
 {
-  "error": "Not enough money."
+  "error": "Not enough money"
+}
+```
+
+**Diferent Client transfer attempt Response**:
+```
+Status: 403 Forbidden
+```
+```json
+{
+  "error": "Transfer not allowed"
 }
 ```
 
