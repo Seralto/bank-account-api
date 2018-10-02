@@ -3,6 +3,7 @@ class ClientsController < ApplicationController
 
   before_action :set_client, only: %i[show update destroy balance transfer_money]
   before_action :authenticate_request, except: :create
+  before_action :check_user, :verify_amount_numericality, only: :transfer_money
 
   # GET /clients
   def index
@@ -72,5 +73,17 @@ class ClientsController < ApplicationController
 
   def client_params
     params.require(:client).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def check_user
+    if @current_user.id != @client.id
+      render json: { error: 'Transfer not allowed' }, status: :forbidden
+    end
+  end
+
+  def verify_amount_numericality
+    unless params[:amount].is_a? Numeric
+      render json: { error: 'Amount is not a number' }, status: :bad_request
+    end
   end
 end

@@ -5,6 +5,7 @@ include CurrencyHelper
 RSpec.describe ClientsController, type: :controller do
   before do
     allow(controller).to receive(:authenticate_request).and_return(true)
+    allow(controller).to receive(:check_user).and_return(true)
   end
 
   describe 'GET #index' do
@@ -130,7 +131,7 @@ RSpec.describe ClientsController, type: :controller do
           id: source_account.client.to_param,
           destination_account_id: destination_account.to_param,
           amount: 800.00
-        }
+        }, as: :json
 
         source_account.reload
         destination_account.reload
@@ -150,7 +151,7 @@ RSpec.describe ClientsController, type: :controller do
           id: source_account.client.to_param,
           destination_account_id: destination_account.to_param,
           amount: 500.00
-        }
+        }, as: :json
 
         source_account.reload
         destination_account.reload
@@ -169,12 +170,28 @@ RSpec.describe ClientsController, type: :controller do
           id: source_account.client.to_param,
           destination_account_id: 4321,
           amount: 500.00
-        }
+        }, as: :json
 
         json = JSON.parse(response.body)
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json['error']).to eq("Couldn't find Account with 'id'=4321")
+      end
+
+      it 'renders an error when amount is not a number' do
+        source_account = create(:account, balance: 1000.00)
+        destination_account = create(:account, balance: 1000.00)
+
+        post :transfer_money, params: {
+          id: source_account.client.to_param,
+          destination_account_id: destination_account.to_param,
+          amount: '500.00'
+        }, as: :json
+
+        json = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:bad_request)
+        expect(json['error']).to eq('Amount is not a number')
       end
     end
   end
