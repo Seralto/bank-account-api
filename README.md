@@ -4,7 +4,7 @@ Each client has an account and a client can transfer money to other accounts and
 The system only handles one type of currency that is brazilian Real (BRL).
 
 ## Demo
-You can see a live demo of this API and test the endpoints bellow [here](https://bank-account-api.herokuapp.com).
+You can see a live demo of this API and test the endpoints bellow [here](https://bank-account-api.herokuapp.com/accounts).
 
 ## Dependencies
 The project has the following dependencies:
@@ -23,7 +23,7 @@ In order to run the program, follow the steps:
 
 ## Running
 1. `$ rails server`
-2. Go to [http://localhost:3000](http://localhost:3000) in your browser.
+2. Go to [http://localhost:3000/accounts](http://localhost:3000/accounts) in your browser.
 
 ## API Usage
 Bellow you can see the main usage of the project resources.
