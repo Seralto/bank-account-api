@@ -3,9 +3,6 @@ This project is a RESTFul API that implements simple banking features.
 Each client has an account and a client can transfer money to other accounts and request his current balance.
 The system only handles one type of currency that is brazilian Real (BRL).
 
-## Demo
-You can see a live demo of this API and test the endpoints bellow [here](https://bank-account-api.herokuapp.com/accounts).
-
 ## Dependencies
 The project has the following dependencies:
 
